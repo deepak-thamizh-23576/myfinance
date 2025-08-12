@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/png" href="Color-yellow.jpeg">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>MyFinance2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+
+  <script src="https://static.zohocdn.com/catalyst/sdk/js/4.0.0/catalystWebSDK.js"></script>
+
+  <script src="/__catalyst/sdk/init.js"></script>
+  <script src="main.js"></script>
+
+  <style>
+    @font-face {
+      font-family: 'Zoho Puvi Light';
+      src: url('fonts/Zoho Puvi Light.ttf') format('truetype');
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Zoho Puvi Semibold';
+      src: url('fonts/Zoho Puvi Semibold.ttf') format('truetype');
+      font-display: swap;
+    }
+
+
+    .custom-heading {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      padding: 10px;
+      max-width: 100%;
+      border: solid;
+      border-color: #a6d4ff;
+    }
+
+    .info-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .info-row {
+      display: flex;
+      font-size: 14px;
+      align-items: center;
+    }
+
+    .label {
+      width: 200px;
+      font-weight: bold;
+      background-color: #f9f9f9;
+      padding: 5px 10px;
+      text-align: left;
+      color: black;
+    }
+
+    .value {
+      color: #555;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 25px;
+    }
+
+    .preview-btn,
+    .decline-btn {
+      padding: 10px 18px;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Zoho Puvi Light'
+    }
+
+    .preview-btn {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .decline-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .verficiationHolder {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      z-index: 1001;
+      width: 750px;
+      text-align: center;
+    }
+
+    .verficiationHolder h2 {
+      font-size: 22px;
+      display: flex;
+      font-family: 'Zoho Puvi Semibold';
+      padding-bottom: 15px;
+    }
+
+    .verficiationHolder button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .acceptAndContinue {
+      font-family: 'Zoho Puvi Light';
+      border: none;
+      border-radius: 5px;
+      background-color: #3c853c;
+      color: white;
+    }
+
+    p {
+      font-family: 'Zoho Puvi Light';
+      display: flex;
+      font-size: 14px;
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .bullet-list {
+      font-family: 'Zoho Puvi Light';
+      font-size: 14px;
+      padding-left: 20px;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .outerLayer {
+      display: none;
+      font-size: 12px;
+      color: grey;
+      text-align: center;
+    }
+
+    .popUpHeader {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .termsAndConditions {
+      text-align: left;
+      font-size: 13.5px;
+      background-color: #d3d3d363;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 10px;
+      padding-bottom: 1px;
+      overflow: auto;
+      padding-top: 10px;
+      max-height: 100px;
+    }
+
+    .termsAndConditions li {
+      margin-bottom: 11px;
+      list-style: none;
+      padding-left: 20px;
+      position: relative;
+      text-align: justify;
+      line-height: 1.5;
+      overflow: auto;
+      font-size: 13px;
+      padding-right: 10px;
+    }
+
+    .termsAndConditions li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    #uploadAndNext {
+      border-radius: 5px;
+      border: none;
+      font-family: 'Zoho Puvi Light';
+      background-color: #007bff;
+      color: white;
+    }
+
+    .nextButtons {
+      display: flex;
+      gap: 5px;
+      justify-content: flex-end;
+    }
+
+    .cancelProcess {
+      border-radius: 5px;
+      border: none;
+      font-family: 'Zoho Puvi Light';
+    }
+
+    .analyseButton {
+      border-radius: 5px;
+      border: none;
+      font-family: 'Zoho Puvi Light';
+    }
+
+    .continueButton {
+      display: block;
+      border-radius: 5px;
+      border: none;
+      font-family: 'Zoho Puvi Light';
+      background-color: #007bff;
+      color: white;
+    }
+
+    .continueButton:disabled {
+      background-color: rgba(239, 239, 239, 0.3);
+      color: rgba(16, 16, 16, 0.3);
+    }
+
+    .choiceButtons {
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      font-family: 'Zoho Puvi Semibold';
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .choiceButtonsDiv {
+      display: flex;
+      gap: 7px;
+      justify-content: center;
+      padding: 10px;
+      padding-bottom: 20px;
+    }
+
+    .cameraTake {
+      display: block;
+      height: 400px;
+      border: 2px dashed #007bff24;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #007bff1a;
+      max-height: 400px;
+    }
+
+    .captureAadharPhoto {
+      border: none;
+      border-radius: 5px;
+      font-family: 'Zoho Puvi Semibold';
+      display: flex;
+      justify-content: space-between;
+      transform: translate(308px, 0px);
+      background: white;
+      color: #007bff;
+    }
+
+    .canvasPreview {
+      display: flex;
+      flex-direction: column;
+      border: solid;
+      width: 37%;
+      transform: translate(415px, -346px);
+      height: 98%;
+      border-radius: 8px;
+      border-color: white;
+      overflow: auto;
+      padding: 10px;
+    }
+
+    .aadharUploading {
+      background-color: #007bff1a;
+      height: 100px;
+      border: 2px dashed #007bff24;
+      border-radius: 8px;
+      font-family: 'Zoho Puvi Light';
+    }
+
+    h5 {
+      display: flex;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-family: 'Zoho Puvi Semibold';
+      font-size: 14px;
+    }
+
+    .button-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: end;
+      gap: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="mainContainer">
+    <div class="sideBar">
+      <div class="userProfileMain">
+        <div class="userProfile" id="profileInitial" onclick="showMyAcnt()"></div>
+        <div class="userDetails">
+          <h2 class="userName" id="firstName"></h2>
+          <h3 class="userEmail" id="emailId"></h3>
+        </div>
+      </div>
+      <div class="tabHolder">
+        <div class="tabContainer mobile-tab" id="tabContainer">
+          <button class="tab-button" id="userDetailsBox" onclick="showUserDetls()">
+            <span class="material-symbols-outlined">group</span>
+            <span class="tab-label">User Details</span>
+          </button>
+        </div>
+        <div class="secondContainer mobile-tab" onclick="showPaymnts()">
+          <button class="tab-button">
+            <span class="material-symbols-outlined">send_money</span>
+            <span class="tab-label">Payments</span>
+          </button>
+        </div>
+      </div>
+      <div class="acntSettings">
+        <span class="material-symbols-outlined" onclick="logout()" style="
+                            transform: rotate(180deg);
+                        ">chip_extraction</span>
+        <h2 id="userRoleDisplay" style="
+                        font-family: 'Zoho Puvi Semibold';
+                        font-size: 14px;
+                    "></h2>
+      </div>
+    </div>
+    <div class="rightBar" id="profileSection">
+      <h1 class="custom-heading" id="custom-heading">Payments</h1>
+      <div id="loanBoxContainer"></div>
+      <div class="card" id="card">
+        <div class="info-grid">
+          <div class="outerLayer" id="outerLayer">
+            <div class="info-row">
+              <span class="label">First Name:</span>
+              <span id="fnameValue" class="value"></span>
+            </div>
+            <div class="info-row">
+              <span class="label">Last Name:</span>
+              <span id="lnameValue" class="value"></span>
+            </div>
+            <div class="info-row">
+              <span class="label">Email:</span>
+              <span id="mailidValue" class="value"></span>
+            </div>
+            <div class="info-row">
+              <span class="label">Loan Amount Sanctioned:</span>
+              <span id="tzoneValue" class="value"></span>
+            </div>
+            <div class="info-row">
+              <span class="label">Fixed Interest Rate:</span>
+              <span id="ctimeValue" class="value"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group" id="button-group">
+          <button type="button" class="decline-btn" id="decline-btn" onclick="declineLoanAmt()">Decline</button>
+          <button type="button" class="preview-btn" id="preview-btn" onclick="previewLoanAmt()">Preview</button>
+        </div>
+      </div>
+    </div>
+    <div id="overlay"></div>
+  </div>
+  </div>
+  </div>
+  <script>
+    let cameraStream = null;
+    let photoCount = 0;
+    const maxPhotos = 3;
+    let faceAnalyticsImage = null;
+    let aadharFrontImage = null;
+    let aadharBackImage = null;
+
+    window.onload = function () {
+      catalyst.auth.isUserAuthenticated().then(result => {
+        if (!user || !user.first_name || !user.last_name || !user.email_id) {
+          console.error("Invalid user object:", user);
+          return;
+        }
+        document.getElementById("profileSection").style.display = "block";
+        document.getElementById("custom-heading").style.display = "block";
+
+        fetch('https://my-finance-test-60042869018.development.catalystserverless.in/server/datastoreFetch/')
+          .then(res => res.json())
+          .then(data => {
+            const rows = data.userDetailsTable;
+
+            // Match by FirstName, LastName, EmailId
+            const matchingRecord = rows.find(row =>
+              row.FirstName === user.first_name &&
+              row.LastName === user.last_name &&
+              row.EmailId === user.email_id
+            );
+
+            if (matchingRecord) {
+              console.log("Matched User Record:", matchingRecord);
+              const container = document.getElementById("card");
+              container.style.display = "block";
+              document.getElementById("outerLayer").style.display = "block";
+              document.getElementById("fnameValue").innerText = matchingRecord.FirstName;
+              document.getElementById("lnameValue").innerText = matchingRecord.LastName;
+              document.getElementById("mailidValue").innerText = matchingRecord.EmailId;
+              document.getElementById("tzoneValue").innerText = matchingRecord.LoanAmount;
+              document.getElementById("ctimeValue").innerText = matchingRecord.InterestRate;
+            } else {
+              document.getElementById("card").style.display = "block";
+              document.getElementById("outerLayer").style.display = "block";
+              document.getElementById("button-group").style.display = "none";
+              document.getElementById("outerLayer").innerText = "No loan has been sanctioned yet, pls contact Admin."
+              console.log("No matching record found for this user.");
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching from datastore:", error);
+          });
+      })
+    }
+
+    function previewLoanAmt() {
+      // Show overlay
+      document.getElementById("overlay").style.display = "block";
+
+      // Create the popup container
+      const popUp = document.createElement("div");
+      popUp.className = "verficiationHolder";
+      popUp.id = "verificationPopup";
+
+      // Step 1 content
+      popUp.innerHTML = `
+      <div id="step1Preview">
+        <div class="popUpHeader">
+          <h2>Step 1: Terms and Conditions</h2>
+          <span class="material-symbols-outlined" style="
+                cursor: pointer;" onclick="closePopup()">close</span>
+        </div>
+        <div id="termsAndConditions" class="termsAndConditions">
+          <li>I agree to repay the full loan amount along with any interest, fees, and penalties as per the agreed repayment schedule.</li>
+
+          <li>I understand and accept the interest rate, processing fees, and any other applicable charges shown to me during the loan application.</li>
+
+          <li>I commit to making all repayments on time. I understand that late or missed payments may lead to penalties and affect my credit history.</li>
+
+          <li>I authorize the lender to verify my identity, credit history, and any documents provided during the loan application.</li>
+
+          <li>I understand that if I fail to repay the loan, the lender has the right to take recovery actions as per the law, including reporting the default to credit agencies. </li></ul><br>
+        </div>
+      <p>Please read and accept to proceed further.</p>
+      <button class="cancelProcess" onclick="closePopup()">Cancel</button>
+      <button class="acceptAndContinue" onclick="goToStep2()">Accept & Continue</button>
+    </div>
+  `;
+      document.body.appendChild(popUp);
+    }
+
+    function goToStep2() {
+      document.getElementById("step1Preview").style.display = "none";
+      document.getElementById("verificationPopup").style.display = "none";
+      document.getElementById("verificationPopup").style.display = "block";
+      const popup = document.getElementById("verificationPopup");
+      if (popup) {
+        popup.innerHTML = `
+        <div id="step2process">
+          <div class="popUpHeader">
+            <h2>Step 2: KYC Verification</h2>
+            <span class="material-symbols-outlined" style="
+                cursor: pointer;" onclick="closePopup()">close</span>
+          </div>
+          <div style="display: flex; flex-direction: row; align-items: flex-start;">
+            <div style="flex: 0 0 auto; text-align: left; height: 300px;">
+              <video id="video" autoplay playsinline style="position: relative;width: 400px;height: 300px;border-radius: 10px;border: solid;border-color: #d3d3d345;"></video>
+              <canvas id="canvas" style="position: absolute;width: 257px;right: 38px;top: 105px;border-radius: 10px;border: solid rgba(211, 211, 211, 0.31);height: 196px;display: block;"></canvas>
+              <button onclick="capturePhoto()" style="border: none;border-radius: 5px;font-family: 'Zoho Puvi Light';position: absolute;left: 45.5%;">Capture</button>
+              <p style="
+                position: absolute;
+                right: 187px;
+                top: 73px;
+                font-size: 16px;
+            "> Image Preview </p>
+              <p class="imagePara" style="
+                display: flex;
+                font-size: 12px;
+                color: #858585;
+                top: 266px;
+                left: 457px;
+                font-style: italic;
+                width: 89%;
+            ">*on require retake, pls click again the capture button. <br> <br> Once captured proper image click Next button and continue with the next process.</p><br>
+            <div class="faceAnalysticsResult" id='faceAnalyticsResult' style="
+              font-size: 13px;
+              position: relative;
+              left: 94%;
+              background-color: #d3d3d340;
+              width: 254px;
+              border-radius: 10px;
+              padding: 10px;
+              top: -144px;
+          ">Face Analytics results appear here</div>
+            </div>
+          </div>
+          <br><br>
+          <div class="nextButtons" id="nextButtons">
+              <button class="cancelProcess" onclick="goBackToStep1()">Go Back</button>
+              <button class="analyseButton" id="analyseButton" disabled onclick="analyzeFace()">Analyse</button>
+              <button class="continueButton" id="continueButton" disabled onclick="goToStep3()">Continue</button>
+          </div>
+        </div>
+      `;
+      }
+    }
+
+    function goBackToStep1() {
+      const step2 = document.getElementById("step2process");
+      if (step2) {
+        step2.remove(); // This will remove the entire element from the DOM
+        previewLoanAmt()
+      }
+    }
+
+    // Capture photo
+    function capturePhoto() {
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+
+      // Ask for camera access only when button is clicked
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          cameraStream = stream;
+          video.srcObject = cameraStream;
+
+          // Once video is playing, wait a moment, then capture
+          video.onloadedmetadata = () => {
+            setTimeout(() => {
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
+              canvas.getContext('2d').drawImage(video, 0, 0);
+              canvas.style.display = 'block'; // show canvas if needed
+            }, 1000);
+          };
+          document.getElementById("analyseButton").disabled = false;
+          document.getElementById("continueButton").disabled = false;
+        })
+        .catch(err => console.error('Camera access denied:', err));
+    }
+
+
+    // Analyze the captured image
+    function analyzeFace() {
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob((blob) => {
+        const formData = new FormData();
+        const fileName = `${user.first_name}.png`;
+        formData.append('image', blob, fileName);
+        for (let pair of formData.entries()) {
+          console.log(pair[0], pair[1].name);  // Output: image photo.png
+        }
+
+        faceAnalyticsImage = canvas.toDataURL('image/png');
+
+        fetch("https://my-finance-test-60042869018.development.catalystserverless.in/server/ziaStratusStore/", {
+          method: "POST",
+          body: formData
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log("Face Analytics report:", data);
+            const resultEl = document.getElementById('faceAnalyticsResult');
+
+            resultEl.innerText =
+              "Faces Count: " + data.faces_count + "\n" +
+              "Age: " + JSON.stringify(data.faces[0].age.prediction) + "\n" +
+              "Gender: " + JSON.stringify(data.faces[0].gender.prediction, null, 2);
+
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
+
+            document.getElementById("continueButton").style.display = "block";
+          })
+          .catch(err => {
+            console.error("Error", err);
+          });
+      }, 'image/png');
+    }
+
+    function goToStep3() {
+      const popup = document.getElementById("verificationPopup");
+
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+      }
+
+      if (popup) {
+        popup.innerHTML = `
+        <div class="popUpHeader">
+            <h2>Step 3: Aadhar Upload</h2>
+            <span class="material-symbols-outlined" style="
+                cursor: pointer;" onclick="closePopup()">close</span>
+        </div>
+        <div class="getDocument">
+          <div class="choiceButtonsDiv">
+            <button class="choiceButtons" id="takeAadharPhoto" onclick="takePhoto()">
+              <span class="material-symbols-outlined">photo_camera_front</span>
+              Take Photo</button>
+            <button class="choiceButtons" id="uploadFrontBack" onclick="uploadFrontAndBack()">
+              <span class="material-symbols-outlined">drive_folder_upload</span>
+              Upload front & back</button>
+            <button class="choiceButtons" id="singleUpload" onclick="singleFileUpload()">
+              <span class="material-symbols-outlined">upload_file</span>
+              Single file upload</button>
+          </div>
+          
+          <div id="cameraTake" class="cameraTake" style="display: none;height: 400px;">
+            <video id="aadharVideo" autoplay playsinline style="display: flex;width: 400px;height: 300px;border-radius: 10px;background-color: white;">Click Capture to start camera</video>
+            <button class="captureAadharPhoto" onclick="captureAadharPhoto()">Capture</button>
+            <div class="canvasPreview">
+              <canvas id="canvas1" style="display:none;"></canvas>
+              <div class="canvas2items">
+                <p>Front-side Aadhar</p>
+                <canvas id="canvas2" style="display: block;width: 217px;border-radius: 8px;padding-top: 6px;"></canvas><br>
+              </div>
+              <div class="canvas3items">
+                <p>Back-side Aadhar</p>
+                <canvas id="canvas3" style="display: block;width: 217px;border-radius: 8px;padding-top: 6px;"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="aadharUploadBox" style="
+              display: flex;
+              justify-content: center;
+              gap: 10px;
+          ">
+            <div class="aadharUploadFront">
+              <input class="aadharUploading" type="file" id="aadharUploadFront" name="aadharFront" style="display: none" required>
+            </div>
+            <div class="aadharUploadBack">
+              <input class="aadharUploading" type="file" id="aadharUploadBack" name="aadharback" style="display: none" required>
+            </div>
+          </div>
+
+          <div class="aadharUploadBox" style="
+              display: flex;
+              justify-content: center;
+              gap: 10px;
+          ">
+          <input type="file" class="aadharUploading" id="singleFileUpload" name="completeAadhar" style="display: none" required>
+          </div>
+
+          <div class="closeButton">
+            <button class="cancelProcess" onclick="closePopup()">Cancel</button>
+            <button class="abortProcess" id="abortProcess" onclick="goToStep3()" style="display: none;border: none;font-family: 'Zoho Puvi Light';border-radius: 5px;">Abort</button>
+            <button id="uploadAndNext" onclick="handleUploadAndNext()">Upload & Next</button>
+          </div>
+        </div>
+    `;
+      }
+    }
+
+    function takePhoto() {
+      document.getElementById("cameraTake").style.display = "block";
+      document.getElementById("abortProcess").style.display = "block";
+
+      document.getElementById("uploadFrontBack").disabled = true;
+      document.getElementById("singleUpload").disabled = true;
+    }
+
+    function captureAadharPhoto() {
+      if (photoCount >= maxPhotos) {
+        alert("You’ve already captured both photos.");
+        return;
+      }
+
+      const video = document.getElementById('aadharVideo');
+
+      if (!cameraStream) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(stream => {
+            cameraStream = stream;
+            video.srcObject = cameraStream;
+            video.onloadedmetadata = () => video.play();
+          })
+          .catch(err => {
+            console.error("Camera access denied:", err);
+            return;
+          });
+      }
+
+      // Wait a moment and then capture the image
+      setTimeout(() => {
+        const canvasId = photoCount === 0 ? "canvas1" :
+          photoCount === 1 ? "canvas2" :
+            "canvas3";
+        const canvas = document.getElementById(canvasId);
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        canvas.style.display = 'block';
+
+        photoCount++;
+        console.log(`Photo ${photoCount} captured`);
+
+        // Enable the analyse button after 2 photos
+        if (photoCount === maxPhotos) {
+          document.getElementById("uploadAndNext").disabled = false;
+          document.getElementById("uploadAndNext").onclick = aadharUploadProcess;
+        }
+      }, 1000);
+    }
+
+    function handleUploadAndNext() {
+
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+      }
+
+      const frontFile = document.getElementById("aadharUploadFront").files[0];
+      const backFile = document.getElementById("aadharUploadBack").files[0];
+      const canvasFront = document.getElementById("canvas2");
+      const canvasBack = document.getElementById("canvas3");
+      const singleFileUpload = document.getElementById("singleFileUpload");
+
+      // Prefer file input if both are available
+      if (frontFile && backFile) {
+        identityScanner();
+      } else if (canvasFront && canvasBack) {
+        aadharUploadProcess();
+      } else if (singleFileUpload) {
+        singleAadharUpload();
+      } else {
+        alert("Please upload or capture both front and back of Aadhaar.");
+      }
+    }
+
+    function aadharUploadProcess() {
+      const aadharFrontCanvas = document.getElementById('canvas2');
+      const aadharBackCanvas = document.getElementById('canvas3');
+
+      if (!aadharFrontCanvas || !aadharBackCanvas) {
+        alert("Please capture both front and back images of Aadhar");
+        return;
+      }
+
+      aadharFrontImage = aadharFrontCanvas.toDataURL('image/png');
+      aadharBackImage = aadharBackCanvas.toDataURL('image/png');
+
+      const formData = new FormData();
+
+      aadharFrontCanvas.toBlob((blob1) => {
+        formData.append('aadharFront', blob1, 'aadhar_photo_1.png');
+
+        aadharBackCanvas.toBlob((blob2) => {
+          formData.append('aadharBack', blob2, 'aadhar_photo_2.png');
+
+          // Now upload both files together
+          fetch('https://my-finance-test-60042869018.development.catalystserverless.in/server/aadharPanScan/', {
+            method: 'POST',
+            body: formData
+          })
+            .then(res => res.json())
+            .then(data => {
+              console.log("ZIA Result:", data);
+              finalPreviewPage();
+            })
+            .catch(err => console.error("Error uploading:", err));
+        }, 'image/png');
+
+      }, 'image/png');
+
+    }
+
+    function uploadFrontAndBack() {
+      document.getElementById("aadharUploadFront").style.display = "block";
+      document.getElementById("aadharUploadBack").style.display = "block";
+      document.getElementById("abortProcess").style.display = "block";
+
+      document.getElementById("takeAadharPhoto").disabled = true;
+      document.getElementById("singleUpload").disabled = true;
+    }
+
+    function singleFileUpload() {
+      document.getElementById("singleFileUpload").style.display = "block";
+      document.getElementById("abortProcess").style.display = "block";
+
+      document.getElementById("takeAadharPhoto").disabled = true;
+      document.getElementById("uploadFrontBack").disabled = true;
+    }
+
+    function singleAadharUpload() {
+      const aadharFrontPdf = document.getElementById("singleFileUpload").files[0];
+      const aadharBackPdf = document.getElementById("singleFileUpload").files[0];
+
+      if (!aadharFrontPdf || !aadharBackPdf) {
+        alert("Please upload Aaadhar.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("aadharFront", aadharFrontPdf);
+      formData.append("aadharBack", aadharBackPdf);
+
+      fetch('https://my-finance-test-60042869018.development.catalystserverless.in/server/aadharPanScan/', {
+        method: 'POST',
+        body: formData
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log("ZIA Result:", data);
+          finalPreviewPage();
+        })
+        .catch(err => console.error("Error uploading:", err));
+    }
+
+    function identityScanner() {
+      const aadharFrontPdf = document.getElementById("aadharUploadFront").files[0];
+      const aadharBackPdf = document.getElementById("aadharUploadBack").files[0];
+
+      if (!aadharFrontPdf || !aadharBackPdf) {
+        alert("Please upload both Aadhaar and PAN files.");
+        return;
+      }
+
+      if (aadharFrontPdf) {
+        const reader1 = new FileReader();
+        reader1.onload = (e) => {
+          aadharFrontImage = e.target.result;
+        };
+        reader1.readAsDataURL(aadharFrontPdf);
+      }
+
+      if (aadharBackPdf) {
+        const reader2 = new FileReader();
+        reader2.onload = (e) => {
+          aadharBackImage = e.target.result;
+        };
+        reader2.readAsDataURL(aadharBackPdf);
+      }
+
+      const formData = new FormData();
+      formData.append("aadharFront", aadharFrontPdf);
+      formData.append("aadharBack", aadharBackPdf);
+
+      fetch('https://my-finance-test-60042869018.development.catalystserverless.in/server/aadharPanScan/', {
+        method: 'POST',
+        body: formData
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log("ZIA Result:", data);
+          finalPreviewPage();
+        })
+        .catch(err => console.error("Error uploading:", err));
+    }
+
+    function finalPreviewPage() {
+      const popup = document.getElementById("verificationPopup");
+
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+      }
+
+      popup.innerHTML = `
+        <div class="popUpHeader">
+            <h2>Final Step: Review & Submit</h2>
+            <span class="material-symbols-outlined" style="
+                cursor: pointer;" onclick="closePopup()">close</span>
+        </div>
+        <div class="finalReview">
+            <h4 style="text-align: left; font-size: 16px; padding-bottom: 10px;">Documents Collected</h4>
+        </div>
+
+        <div class="termsAndConditions">
+          <li>I agree to repay the full loan amount along with any interest, fees, and penalties as per the agreed repayment schedule.</li>
+
+          <li>I understand and accept the interest rate, processing fees, and any other applicable charges shown to me during the loan application.</li>
+
+          <li>I commit to making all repayments on time. I understand that late or missed payments may lead to penalties and affect my credit history.</li>
+
+          <li>I authorize the lender to verify my identity, credit history, and any documents provided during the loan application.</li>
+
+          <li>I understand that if I fail to repay the loan, the lender has the right to take recovery actions as per the law, including reporting the default to credit agencies. </li></ul><br>
+        </div>
+
+        <div class="preview-container" style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="imagePreview">
+                <h5>Face Verification Image</h5>
+                <img id="facePreview" src="${faceAnalyticsImage}" style="max-width: 200px; border-radius: 8px; display:flex;">
+            </div>
+            
+            <div class="aadharPreview" style="display: flex; gap: 20px;">
+                <div>
+                    <h5>Aadhar Front</h5>
+                    <img id="aadharFrontPreview" src="${aadharFrontImage}" style="max-width: 200px; border-radius: 8px; display:flex;">
+                </div>
+                <div>
+                    <h5>Aadhar Back</h5>
+                    <img id="aadharBackPreview" src="${aadharBackImage}" style="max-width: 200px; border-radius: 8px; display:flex;">
+                </div>
+            </div>
+
+            <div class="finalPoints">
+              <h5>If there any corrections required on uploads pls cancel the preview process and start from the beginning.</h5>
+            </div>
+            
+            <div class="button-container">
+                <button class="cancelProcess" onclick="closePopup()">Cancel</button>
+                <button class="continueButton" onclick="submitApplication()">Submit Application</button>
+            </div>
+        </div>
+    `;
+    }
+
+    function submitApplication() {
+      if (!faceAnalyticsImage) {
+        alert("Face scanned image is not selected.");
+        return;
+      }
+
+      if (!aadharFrontImage || !aadharBackImage) {
+        alert("Aadhar images are not uploaded. Pls check and try again");
+        return;
+      }
+
+      // Convert base64 to Blob
+      const blob = dataURLtoBlob(faceAnalyticsImage);
+      const aadharFrontImg = dataURLtoBlob(aadharFrontImage);
+      const aadharBackImg = dataURLtoBlob(aadharBackImage);
+
+      let formData = new FormData();
+      formData.append("faceImage", blob, "face.png");
+      formData.append("aadharFrontImage", aadharFrontImg, "aadharFront.png");
+      formData.append("aadharBackImage", aadharBackImg, "aadharBack.png");
+
+      fetch("https://my-finance-test-60042869018.development.catalystserverless.in/server/storeApplicationStratus/", {
+        method: "POST",
+        body: formData // Don't set Content-Type manually
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log("Success:", data);
+
+          // If upload succeeded, close popup
+          if (data && !data.error) {
+            document.getElementById("overlay").style.display = "none";
+            const popup = document.getElementById("verificationPopup");
+            if (popup) popup.remove();
+            document.getElementById("decline-btn").style.display = "none";
+            document.getElementById("preview-btn").style.display = "none";
+          } else {
+            console.error("Upload failed:", data);
+            alert("Upload failed. Please try again.");
+          }
+        })
+        .catch(err => {
+          console.error("Error:", err);
+          alert("An error occurred during upload. Please try again.");
+        });
+    }
+
+    // Helper function to convert base64 to blob
+    function dataURLtoBlob(dataURL) {
+      const arr = dataURL.split(',');
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new Blob([u8arr], { type: mime });
+    }
+
+    function closePopup() {
+      const confirmClose = confirm("Are you sure you want to abort the preview process?");
+      if (!confirmClose) return;
+
+      document.getElementById("overlay").style.display = "none";
+      const popup = document.getElementById("verificationPopup");
+      if (popup) popup.remove();
+
+      // 🔻 Turn off camera
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+      }
+    }
+
+    function declineLoanAmt() {
+
+    }
+
+  </script>
+</body>
+
+</html>

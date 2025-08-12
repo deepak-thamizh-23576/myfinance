@@ -1,0 +1,17 @@
+{
+  "functions": {
+    "targets": [
+      "my_finance_2",
+      "userDatastore",
+      "datastoreFetch",
+      "ziaStratusStore",
+      "aadharPanScan",
+      "storeApplicationStratus"
+    ],
+    "ignore": [],
+    "source": "functions"
+  },
+  "client": {
+    "source": "client"
+  }
+}

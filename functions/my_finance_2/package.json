@@ -1,0 +1,9 @@
+{
+	"name": "my_finance_2",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "deepak.thamizh@zohocorp.com",
+	"dependencies": {
+		"zcatalyst-sdk-node": "^3.0.3"
+	}
+}
