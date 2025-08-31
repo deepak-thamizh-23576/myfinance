@@ -12,6 +12,13 @@
   <script src="https://static.zohocdn.com/catalyst/sdk/js/4.0.0/catalystWebSDK.js"></script>
   <script src="/__catalyst/sdk/init.js"></script>
   <script src="main.js"></script>
+
+  <style>
+    .editUserHeading {
+      font-family: 'Zoho Puvi Semibold';
+      font-size: 20px;
+    }
+  </style>
 </head>
 
 <body>
@@ -24,130 +31,138 @@
           <h3 class="userEmail" id="emailId"></h3>
         </div>
       </div>
-    </div>
-    <div class="tabHolder">
-      <div class="tabContainer mobile-tab" id="tabContainer">
-        <button class="tab-button" id="userDetailsBox" onclick="showUserDetls()">
-          <span class="material-symbols-outlined">group</span>
-          <span class="tab-label">User Details</span>
-        </button>
+      <div class="tabHolder">
+        <div class="tabContainer mobile-tab" id="tabContainer">
+          <button class="tab-button" id="dashboardBoxButton" onclick="window.location.href='index.html'">
+            <span class="material-symbols-outlined">home</span>
+            <span class="tab-label">Dashboard</span>
+          </button>
+        </div>
+        <div class="tabContainer mobile-tab" id="tabContainer">
+          <button class="tab-button" id="userDetailsBox" onclick="showUserDetls()">
+            <span class="material-symbols-outlined">group</span>
+            <span class="tab-label">User Details</span>
+          </button>
+        </div>
+        <div class="secondContainer mobile-tab" id="paymentsBox" disabled onclick="showPaymnts()">
+          <button class="tab-button">
+            <span class="material-symbols-outlined">send_money</span>
+            <span class="tab-label">Payments</span>
+          </button>
+        </div>
       </div>
-      <div class="secondContainer mobile-tab" onclick="showPaymnts()">
-        <button class="tab-button">
-          <span class="material-symbols-outlined">send_money</span>
-          <span class="tab-label">Payments</span>
-        </button>
-      </div>
-    </div>
-    <div class="acntSettings">
-      <span class="material-symbols-outlined" onclick="logout()" style="
+      <div class="acntSettings">
+        <span class="material-symbols-outlined" onclick="logout()" style="
                             transform: rotate(180deg);
                         ">chip_extraction</span>
-      <h2 id="userRoleDisplay" style="
-                        font-family: 'Zoho Puvi Light';
+        <h2 id="userRoleDisplay" style="
+                        font-family: 'Zoho Puvi Semibold';
                         font-size: 14px;
                     "></h2>
-    </div>
-  </div>
-  <div class="rightBar" id="profileSection">
-    <h1 class="custom-heading" id="custom-heading">User Profile Information</h1>
-    <div id="loanBoxContainer"></div>
-    <div class="card" id="card">
-      <p class="title" id="fname"></p>
-      <p class="title" id="lname"></p>
-      <p class="title" id="mailid"></p>
-      <p class="title" id="tzone"></p>
-      <p class="title" id="ctime"></p>
-      <p class="title" id="ustatus"></p>
-    </div>
-    <!-- <div class="table-responsive"> -->
-    <div class="displayUsers" id="displayUsers">
-      <table class="usersTable">
-        <thead class="tableHead">
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>User ID</th>
-            <th>Email</th>
-            <th>Org ID</th>
-            <th>Created Time</th>
-            <th>Status</th>
-            <th>Role</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>John</td>
-            <td>K</td>
-            <td>8789696895</td>
-            <td>manfm@gmail.com</td>
-            <td>097016051</td>
-            <td>12:30 PM</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div id="overlay"></div>
-  <div id="editPopup" class="editPopup">
-    <h3>Edit User</h3>
-    <div id="popupContent" class="popupContent">
-      <div class="leftContent">
-        <div class="popup-row">
-          <label>First Name:</label>
-          <input type="text" id="editFirstName">
-        </div>
-        <div class="popup-row">
-          <label>Last Name:</label>
-          <input type="text" id="editLastName">
-        </div>
-        <div class="popup-row">
-          <label>User ID:</label>
-          <input type="text" id="editUserId">
-        </div>
-        <div class="popup-row">
-          <label>Email:</label>
-          <input type="text" id="editEmail">
-        </div>
-        <div class="popup-row">
-          <label>Org ID:</label>
-          <input type="text" id="editOrgId">
-        </div>
-        <div class="popup-row">
-          <label>Created Time:</label>
-          <input type="text" id="editCreatedTime">
-        </div>
-        <div class="popup-row">
-          <label>Status:</label>
-          <input type="text" id="editStatus">
-        </div>
-        <div class="popup-row">
-          <label>Role:</label>
-          <input type="text" id="editRole">
-        </div>
-      </div>
-      <div class="rightContent">
-        <div class="popup-row">
-          <label>Loan Amount:</label>
-          <input type="number" id="loanAmtInput" />
-        </div>
-        <div class="popup-row">
-          <label>Interest Rate:</label>
-          <input type="number" id="interestRate" />
-        </div>
       </div>
     </div>
-
-    <button type="button" class="closeButton" onclick="closePopup()">Cancel</button>
-    <button type="button" class="updateButton" onclick="sendDataToBackend()">Update</button>
-  </div>
+    <div class="rightBar" id="profileSection">
+      <h1 class="custom-heading" id="custom-heading">User Profile Information</h1>
+      <div id="loanBoxContainer"></div>
+      <div class="card" id="card">
+        <p class="title" id="fname"></p>
+        <p class="title" id="lname"></p>
+        <p class="title" id="mailid"></p>
+        <p class="title" id="tzone"></p>
+        <p class="title" id="ctime"></p>
+        <p class="title" id="ustatus"></p>
+      </div>
+      <!-- <div class="table-responsive"> -->
+      <div class="displayUsers" id="displayUsers">
+        <table class="usersTable">
+          <thead class="tableHead">
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>User ID</th>
+              <th>Email</th>
+              <th>Org ID</th>
+              <th>Created Time</th>
+              <th>Status</th>
+              <th>Role</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>John</td>
+              <td>K</td>
+              <td>8789696895</td>
+              <td>manfm@gmail.com</td>
+              <td>097016051</td>
+              <td>12:30 PM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="overlay"></div>
+    <div id="editPopup" class="editPopup">
+      <h3 class="editUserHeading">Edit User</h3>
+      <div id="popupContent" class="popupContent">
+        <div class="leftContent">
+          <div class="popup-row">
+            <label>First Name:</label>
+            <input type="text" id="editFirstName">
+          </div>
+          <div class="popup-row">
+            <label>Last Name:</label>
+            <input type="text" id="editLastName">
+          </div>
+          <div class="popup-row">
+            <label>User ID:</label>
+            <input type="text" id="editUserId">
+          </div>
+          <div class="popup-row">
+            <label>Email:</label>
+            <input type="text" id="editEmail">
+          </div>
+          <div class="popup-row">
+            <label>Org ID:</label>
+            <input type="text" id="editOrgId">
+          </div>
+          <div class="popup-row">
+            <label>Created Time:</label>
+            <input type="text" id="editCreatedTime">
+          </div>
+          <div class="popup-row">
+            <label>Status:</label>
+            <input type="text" id="editStatus">
+          </div>
+          <div class="popup-row">
+            <label>Role:</label>
+            <input type="text" id="editRole">
+          </div>
+        </div>
+        <div class="rightContent">
+          <div class="popup-row">
+            <label>Loan Amount:</label>
+            <input type="number" id="loanAmtInput" />
+          </div>
+          <div class="popup-row">
+            <label>Interest Rate:</label>
+            <input type="number" id="interestRate" />
+          </div>
+        </div>
+      </div>
+      <div class="editPopupButtons">
+        <button type="button" class="closeButton" onclick="closePopup()">Cancel</button>
+        <button type="button" class="updateButton" onclick="sendDataToBackend()">Update</button>
+      </div>
+    </div>
   </div>
   <script>
     window.onload = function () {
       fetch('https://my-finance-test-60042869018.development.catalystserverless.in/server/my_finance_2/')
         .then(res => res.json())
         .then(data => {
+          const userCount = data.users.length;
+          console.log(userCount);
           const tbody = document.querySelector(".usersTable tbody");
           tbody.innerHTML = ''; // Clear previous rows
 

@@ -6,7 +6,15 @@
       "datastoreFetch",
       "ziaStratusStore",
       "aadharPanScan",
-      "storeApplicationStratus"
+      "storeApplicationStratus",
+      "accessTokenRefreshToken",
+      "create_crm_task",
+      "todayDateJob",
+      "todayDateJob1",
+      "panCardFrontScan",
+      "userOnboardingCRM",
+      "uploadStratusFileLinkCrm",
+      "updateCrmLead"
     ],
     "ignore": [],
     "source": "functions"

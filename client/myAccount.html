@@ -24,43 +24,48 @@
           <h3 class="userEmail" id="emailId"></h3>
         </div>
       </div>
-    </div>
-    <div class="tabHolder">
-      <div class="tabContainer mobile-tab" id="tabContainer">
-        <button class="tab-button" id="userDetailsBox" onclick="showUserDetls()">
-          <span class="material-symbols-outlined">group</span>
-          <span class="tab-label">User Details</span>
-        </button>
+      <div class="tabHolder">
+        <div class="tabContainer mobile-tab" id="tabContainer">
+          <button class="tab-button" id="userDetailsBox" onclick="showUserDetls()">
+            <span class="material-symbols-outlined">group</span>
+            <span class="tab-label">User Details</span>
+          </button>
+        </div>
+        <div class="secondContainer mobile-tab" onclick="showPaymnts()">
+          <button class="tab-button">
+            <span class="material-symbols-outlined">send_money</span>
+            <span class="tab-label">Payments</span>
+          </button>
+        </div>
       </div>
-      <div class="secondContainer mobile-tab" onclick="showPaymnts()">
-        <button class="tab-button">
-          <span class="material-symbols-outlined">send_money</span>
-          <span class="tab-label">Payments</span>
-        </button>
-      </div>
-    </div>
-    <div class="acntSettings">
-      <span class="material-symbols-outlined" onclick="logout()" style="
+      <div class="acntSettings">
+        <span class="material-symbols-outlined" onclick="logout()" style="
                             transform: rotate(180deg);
                         ">chip_extraction</span>
-      <h2 id="userRoleDisplay" style="
-                        font-family: 'Zoho Puvi Light';
+        <h2 id="userRoleDisplay" style="
+                        font-family: 'Zoho Puvi Semibold';
                         font-size: 14px;
                     "></h2>
+      </div>
     </div>
-  </div>
-  <div class="rightBar" id="profileSection">
-    <h1 class="custom-heading" id="custom-heading">User Profile Information</h1>
-    <div id="loanBoxContainer"></div>
-    <div class="card" id="card">
-      <p class="title" id="fname"></p>
-      <p class="title" id="lname"></p>
-      <p class="title" id="mailid"></p>
-      <p class="title" id="tzone"></p>
-      <p class="title" id="ctime"></p>
-      <p class="title" id="ustatus"></p>
+    <div class="rightBar" id="profileSection">
+      <h1 class="custom-heading" id="custom-heading">User Profile Information</h1>
+      <div id="loanBoxContainer"></div>
+      <div class="card" id="card">
+        <p class="titleMyAccount" id="fname">First Name</p>
+        <p class="titleValue" id="fnameValue"></p>
+        <p class="titleMyAccount" id="lname">Last Name</p>
+        <p class="titleValue" id="lnameValue"></p>
+        <p class="titleMyAccount" id="mailid">Email Id</p>
+        <p class="titleValue" id="mailidValue"></p>
+        <p class="titleMyAccount" id="tzone">Org Id</p>
+        <p class="titleValue" id="tzoneValue"></p>
+        <p class="titleMyAccount" id="ctime">User Type</p>
+        <p class="titleValue" id="ctimeValue"></p>
+        <p class="titleMyAccount" id="ustatus">Status</p>
+        <p class="titleValue" id="ustatusValue"></p>
+      </div>
     </div>
-  </div>
   </div>
   <script>
     window.onload = function () {
@@ -73,16 +78,16 @@
 
       document.getElementById("custom-heading").innerText = "My Account";
 
-      document.getElementById("fname").innerText = "First Name: " + user.first_name;
-      document.getElementById("lname").innerText = "Last Name: " + user.last_name;
-      document.getElementById("mailid").innerText = "Email id: " + user.email_id;
-      document.getElementById("tzone").innerText = "Org Id: " + user.org_id;
-      document.getElementById("ctime").innerText = "User Type: " + user.role_details.role_name;
+      document.getElementById("fnameValue").innerText = user.first_name;
+      document.getElementById("lnameValue").innerText = user.last_name;
+      document.getElementById("mailidValue").innerText = user.email_id;
+      document.getElementById("tzoneValue").innerText = user.org_id;
+      document.getElementById("ctimeValue").innerText = user.role_details.role_name;
 
       const rawStatus = user.status.toLowerCase();
       const statusFormatted = rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1);
-      document.getElementById("ustatus").innerHTML =
-        'Status: <span style="color: green;">' + statusFormatted + '</span>';
+      document.getElementById("ustatusValue").innerHTML =
+        '<span style="color: green;">' + statusFormatted + '</span>';
     };
   </script>
 </body>

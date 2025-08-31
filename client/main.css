@@ -26,6 +26,17 @@ body {
   box-sizing: border-box;
 }
 
+#greeting {
+  display: flex;
+  padding: 10px;
+  font-family: 'Zoho Puvi Semibold';
+  font-size: 18px;
+  padding-top: 15px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding-bottom: 15px;
+}
+
 .material-symbols-outlined {
   font-size: 18px;
 }
@@ -52,21 +63,16 @@ body {
 .tabHolder {
   display: flex;
   flex-direction: column;
-  /* Stack children vertically */
   align-items: flex-start;
-  /* Optional: aligns items to start horizontally */
   justify-content: flex-start;
-  /* Important: aligns items to top vertically */
   height: 100%;
-  /* Ensure it fills its parent height */
-
 }
 
 .tabContainer {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  height: 6vh;
+  height: 5.5vh;
   width: 100%;
   /* You can reduce height to give space for next container */
 }
@@ -100,7 +106,7 @@ body {
   font-family: 'Zoho Puvi Light';
   padding-left: 20px;
   padding-top: 22px;
-  border-radius: 10px;
+  border-radius: 7px;
   background-color: white;
   padding-bottom: 20px;
   padding-right: 20px;
@@ -108,10 +114,22 @@ body {
   display: none;
 }
 
-.title {
-  font-size: 16px;
+.titleMyAccount {
   color: black;
-  padding-bottom: 20px;
+  font-family: 'Zoho Puvi Semibold';
+  font-size: 13px;
+  padding-bottom: 10px;
+}
+
+.titleValue {
+  background-color: #d3d3d38c;
+  width: 20%;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  color: #000000c4;
+  overflow: auto;
+  margin: 0px 0px 25px;
 }
 
 a {
@@ -185,17 +203,18 @@ p {
 
 .userProfileMain {
   height: 70px;
+  overflow: auto;
 }
 
 .tab-button {
   font-family: 'Zoho Puvi Light';
   width: 100%;
-  color: black;
+  color: white;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 16px;
-  background-color: #a6d4ff;
+  background-color: transparent;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -203,8 +222,11 @@ p {
   transition: background-color 0.2s;
 }
 
-.tab-button:hover {
-  background-color: white;
+.tab-button:hover{
+  background: white;
+  color: rgb(35 109 180);
+  font-family: "Zoho Puvi Semibold";
+  opacity: 1;
 }
 
 .acntSettings {
@@ -248,15 +270,19 @@ p {
 
 table {
   width: 100%;
-  border: none;  /* Remove border as it's now on .table-responsive */
-  border-radius: 0;  /* Remove border-radius as it's now on .table-responsive */
+  border: none;
+  /* Remove border as it's now on .table-responsive */
+  border-radius: 0;
+  /* Remove border-radius as it's now on .table-responsive */
 }
 
 .usersTable {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 0;  /* Changed from 20px */
-  min-width: 800px;  /* Ensures minimum width for content */
+  margin-bottom: 0;
+  /* Changed from 20px */
+  min-width: 800px;
+  /* Ensures minimum width for content */
 }
 
 tr th:first-child {
@@ -366,6 +392,12 @@ tr:hover {
   display: flex;
   gap: 5px;
   justify-content: flex-end;
+  padding: 10px;
+}
+
+.editPopupButtons {
+  display: flex;
+  gap: 5px;
 }
 
 .updateButton {
@@ -499,6 +531,52 @@ tr:hover {
 }
 
 .fnameValue {}
+
+.dashboardDesign {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  background-color: white;
+  width: 25%;
+  height: 30%;
+  margin: 10px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  color: #236db4;
+  font-family: 'Zoho Puvi Semibold';
+  font-size: 40px;
+}
+
+.dashboardUserText {
+  display: flex;
+  color: #236db4;
+  font-size: 45px;
+  height: 53px;
+  padding-bottom: 10px;
+  font-family: 'Zoho Puvi Semibold';
+}
+
+.usersOnboardedText {
+  color: black;
+  font-size: 14px;
+  padding-bottom: 14px;
+}
+
+.userCountBackground {
+  background-color: white;
+  display: flex;
+  border-radius: 5px;
+  overflow: auto;
+}
+
+.adminUserCount {
+  display: flex;
+  transform: translate(-144px, 87px);
+  font-size: 13px;
+  height: 10px;
+}
 
 /* Add at the end of your existing CSS */
 

@@ -34,16 +34,15 @@
 
     .custom-heading {
       font-size: 20px;
-      margin-bottom: 20px;
     }
 
     .card {
       background-color: #f9f9f9;
-      border-radius: 10px;
+      border-radius: 7px;
       padding: 10px;
       max-width: 100%;
       border: solid;
-      border-color: #a6d4ff;
+      border-color: #dcedfd;
     }
 
     .info-grid {
@@ -62,9 +61,11 @@
       width: 200px;
       font-weight: bold;
       background-color: #f9f9f9;
-      padding: 5px 10px;
+      padding-top: 0px;
+      padding-bottom: 10px;
       text-align: left;
       color: black;
+      font-family: 'Zoho Puvi Semibold';
     }
 
     .value {
@@ -75,7 +76,6 @@
       display: flex;
       justify-content: flex-end;
       gap: 8px;
-      margin-top: 25px;
     }
 
     .preview-btn,
@@ -138,6 +138,7 @@
       font-size: 14px;
       justify-content: flex-start;
       text-align: left;
+      padding-bottom: 10px;
     }
 
     .bullet-list {
@@ -240,6 +241,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      width: 100%;
     }
 
     .choiceButtonsDiv {
@@ -306,6 +308,67 @@
       justify-content: end;
       gap: 5px;
     }
+
+    .step2_5Buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .step2_5ButtonsSecond {
+      display: flex;
+      gap: 10px;
+      width: 40%;
+    }
+
+    .step2_5ButtonsFirst {
+      display: flex;
+      gap: 10px;
+      width: 70%;
+    }
+
+    .aadharUploadingFront {
+      background-color: #007bff1a;
+      height: 135px;
+      border: 2px dashed #007bff24;
+      border-radius: 8px;
+      font-family: 'Zoho Puvi Light';
+      width: 100%;
+      padding: 10px;
+    }
+
+    #uploadAndNext:disabled {
+      background-color: #b0d4f4;
+      /* greyed out */
+      color: white;
+      cursor: not-allowed;
+    }
+
+    .declinePopUp {
+      background-color: white;
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      width: 25%;
+      border-radius: 6px;
+      position: fixed;
+      top: 35%;
+      left: 35%;
+    }
+
+    .declinePopupButtons {
+      padding: 13px;
+      font-family: 'Zoho Puvi Light';
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .declineBtn {
+      background-color: #dc3545;
+      color: white;
+    }
+
   </style>
 </head>
 
@@ -320,14 +383,20 @@
         </div>
       </div>
       <div class="tabHolder">
-        <div class="tabContainer mobile-tab" id="tabContainer">
+        <div class="tabContainer mobile-tab" id="dashboardBox">
+          <button class="tab-button" onclick="window.location.href='index.html'">
+            <span class="material-symbols-outlined">home</span>
+            <span class="tab-label">Dashboard</span>
+          </button>
+        </div>
+        <div class="tabContainer mobile-tab" id="userDetailsBox">
           <button class="tab-button" id="userDetailsBox" onclick="showUserDetls()">
             <span class="material-symbols-outlined">group</span>
             <span class="tab-label">User Details</span>
           </button>
         </div>
-        <div class="secondContainer mobile-tab" onclick="showPaymnts()">
-          <button class="tab-button">
+        <div class="secondContainer mobile-tab" id="paymentsBox" disabled onclick="showPaymnts()">
+          <button class="tab-button" id="paymentsButon">
             <span class="material-symbols-outlined">send_money</span>
             <span class="tab-label">Payments</span>
           </button>
@@ -344,7 +413,13 @@
       </div>
     </div>
     <div class="rightBar" id="profileSection">
-      <h1 class="custom-heading" id="custom-heading">Payments</h1>
+      <div style="
+          display: flex;
+          border-bottom: solid;
+          border-color: #a5d4ff5c;
+      ">
+        <h1 class="custom-heading" id="custom-heading" style="display: block;padding: 15px 10px 15px 20px;color: #236db4;">Payments</h1>
+      </div>
       <div id="loanBoxContainer"></div>
       <div class="card" id="card">
         <div class="info-grid">
@@ -391,6 +466,11 @@
     let aadharBackImage = null;
 
     window.onload = function () {
+      let paymentsButton = document.getElementById("paymentsButon");
+      paymentsButton.style.backgroundColor="white";
+      paymentsButton.style.color="rgb(35 109 180)";
+      paymentsButton.style.fontFamily="Zoho Puvi Semibold";
+
       catalyst.auth.isUserAuthenticated().then(result => {
         if (!user || !user.first_name || !user.last_name || !user.email_id) {
           console.error("Invalid user object:", user);
@@ -411,7 +491,7 @@
               row.EmailId === user.email_id
             );
 
-            if (matchingRecord) {
+            if (matchingRecord.application_status == false) {
               console.log("Matched User Record:", matchingRecord);
               const container = document.getElementById("card");
               container.style.display = "block";
@@ -518,9 +598,8 @@
           </div>
           <br><br>
           <div class="nextButtons" id="nextButtons">
-              <button class="cancelProcess" onclick="goBackToStep1()">Go Back</button>
               <button class="analyseButton" id="analyseButton" disabled onclick="analyzeFace()">Analyse</button>
-              <button class="continueButton" id="continueButton" disabled onclick="goToStep3()">Continue</button>
+              <button class="continueButton" id="continueButton" disabled onclick="goToStep2_5()">Continue</button>
           </div>
         </div>
       `;
@@ -606,6 +685,227 @@
       }, 'image/png');
     }
 
+    function goToStep2_5() {
+      const popup = document.getElementById("verificationPopup");
+
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+      }
+
+      if (popup) {
+        popup.innerHTML = `
+        <div class="popUpHeader">
+            <h2>Step 3: Identity Verification Process</h2>
+            <span class="material-symbols-outlined" style="
+                cursor: pointer;" onclick="closePopup()">close</span>
+        </div>
+        
+        <div class="step2_5Buttons">
+          <p style="
+              padding-bottom: 10px;">Select any one service to complete your KYC process</p>
+          <div class="step2_5ButtonsFirst">
+            <button class="choiceButtons" id="uploadFrontBack" onclick="ekyc()">
+                <span class="material-symbols-outlined">familiar_face_and_zone</span>
+                E-KYC</button>
+            <button class="choiceButtons" id="uploadFrontBack" onclick="goToStep3()">
+                <span class="material-symbols-outlined">id_card</span>
+                Aadhar</button>
+            <button class="choiceButtons" id="uploadFrontBack" onclick="uploadFrontAndBack()">
+                <span class="material-symbols-outlined">id_card</span>
+                PAN</button>
+          </div>
+          <div class="step2_5ButtonsSecond">
+            <button class="choiceButtons" id="uploadFrontBack" onclick="uploadFrontAndBack()">
+                <span class="material-symbols-outlined">contact_mail</span>
+                Passbook</button>
+            <button class="choiceButtons" id="uploadFrontBack" onclick="uploadFrontAndBack()">
+                <span class="material-symbols-outlined">drive_folder_upload</span>
+                Cheque</button>
+          </div>
+        </div>`
+      }
+    }
+
+    function ekyc() {
+      const popup = document.getElementById("verificationPopup");
+
+      if (popup) {
+        popup.innerHTML = `
+        <div class="popUpHeader">
+            <h2>Step 3: Identity Verification Process</h2>
+            <span class="material-symbols-outlined" style="
+                cursor: pointer;" onclick="closePopup()">close</span>
+        </div>
+        <div>
+          <h5 style="font-family: 'Zoho Puvi Light';">Selected Service: e-KYC</h5>
+          <p id="ekycResult"></p>
+            <div id="cameraTake" class="cameraTake" style="height: 400px;">
+            <video id="aadharVideo" autoplay playsinline style="display: flex;width: 400px;height: 300px;border-radius: 10px;background-color: white;">Click Capture to start camera</video>
+            <button class="captureAadharPhoto" onclick="captureAadharPhoto()">Capture</button>
+            <div class="canvasPreview">
+              <canvas id="canvas1" style="display:none;"></canvas>
+              <div class="canvas2items">
+                <p>Face Image</p>
+                <canvas id="canvas2" style="display: block;width: 217px;border-radius: 8px;padding-top: 6px;"></canvas><br>
+              </div>
+              <p>Upload Aadhar front Image</p>
+              <div class="aadharUploadBox" style="
+                  display: flex;
+                  justify-content: center;
+                  gap: 10px;
+              ">
+              <input type="file" class="aadharUploadingFront" id="singleFileUpload" name="completeAadhar" required>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="closeButton">
+              <button class="cancelProcess" onclick="closePopup()">Cancel</button>
+              <button class="abortProcess" id="abortProcess" onclick="goToStep2_5()" style="border: none;font-family: 'Zoho Puvi Light';border-radius: 5px;">Abort</button>
+              <button id="uploadAndNext" onclick="analyseFaceAndAadhar()" disabled></button>
+            </div>`;
+
+        document.getElementById("uploadAndNext").innerText = "Analyse";
+        let faceCaptured = false;
+        let fileUploaded = false;
+
+        const analyseBtn = document.getElementById("uploadAndNext");
+        const fileInput = document.getElementById("singleFileUpload");
+
+        // When Aadhaar file is uploaded
+        fileInput.addEventListener("change", () => {
+          fileUploaded = fileInput.files.length > 0;
+          toggleButton();
+        });
+
+        // Expose function so captureAadharPhoto() can call it when face is captured
+        window.setFaceCaptured = function () {
+          faceCaptured = true;
+          toggleButton();
+        };
+
+        // Function to check both conditions
+        function toggleButton() {
+          if (faceCaptured || fileUploaded) {
+            analyseBtn.disabled = false;
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
+          } else {
+            analyseBtn.disabled = true;
+          }
+        }
+      }
+    }
+
+    function analyseFaceAndAadhar() {
+      const canvas = document.getElementById("canvas2");
+      const faceData = canvas.toDataURL("image/png"); // face captured image
+      const aadharFile = document.getElementById("singleFileUpload").files[0];
+
+      const formData = new FormData();
+
+      // Convert canvas face image to file
+      fetch(faceData)
+        .then(res => res.blob())
+        .then(blob => {
+          formData.append("faceImage", blob, "face.png");
+          formData.append("aadharImage", aadharFile);
+
+          return fetch("https://my-finance-test-60042869018.development.catalystserverless.in/server/panCardFrontScan/", {
+            method: "POST",
+            body: formData
+          });
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log("eKYC Result:", data);
+          const resultElement = document.getElementById("ekycResult");
+
+          if (data.matched === "true") {
+            resultElement.innerText = "✅ Matched (Confidence: " + data.confidence + ")";
+            resultElement.style.color = "green";
+            document.getElementById("uploadAndNext").innerText = "Upload & Next";
+            document.getElementById("uploadAndNext").onclick = submitApplicationEkyc;
+          } else {
+            resultElement.innerText = "❌ Not Matched (Confidence: " + data.confidence + ")";
+            resultElement.style.color = "red";
+          }
+        })
+        .catch(err => {
+          console.error("Upload error:", err);
+          alert("Failed to verify identity.");
+        });
+    }
+
+    function submitApplicationEkyc() {
+      // Get user details
+      const firstName = document.getElementById("fnameValue").innerText.trim();
+      const lastName = document.getElementById("lnameValue").innerText.trim();
+      const mailIdUser = document.getElementById("mailidValue").innerText.trim();
+
+      // Get face image from canvas
+      const canvas = document.getElementById("canvas2");
+      if (!canvas) {
+        alert("Face scanned image is missing.");
+        return;
+      }
+      const faceData = canvas.toDataURL("image/png");
+
+      // Get Aadhaar front image
+      const aadharFile = document.getElementById("singleFileUpload").files[0];
+      if (!aadharFile) {
+        alert("Aadhar front image not uploaded.");
+        return;
+      }
+
+      // Get ZIA result from analyse step
+      const ziaResult = window.ziaResult; // store the result in global when analyseFaceAndAadhar() runs
+
+      // Convert face canvas to Blob
+      fetch(faceData)
+        .then(res => res.blob())
+        .then(blob => {
+          let formData = new FormData();
+          formData.append("faceImage", blob, "face.png");
+          formData.append("aadharFrontImage", aadharFile);
+
+          // ZIA result as JSON string
+          formData.append("ziaResult", JSON.stringify(ziaResult));
+
+          // user details
+          formData.append("username", firstName);
+          formData.append("lastname", lastName);
+          formData.append("mailIdUser", mailIdUser);
+
+          return fetch("https://my-finance-test-60042869018.development.catalystserverless.in/server/storeApplicationStratus/", {
+            method: "POST",
+            body: formData
+          });
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "success") {
+            console.log("PDF available at:", data.fileUrl);
+          }
+
+          if (data && !data.error) {
+            document.getElementById("overlay").style.display = "none";
+            const popup = document.getElementById("verificationPopup");
+            if (popup) popup.remove();
+            document.getElementById("decline-btn").style.display = "none";
+            document.getElementById("preview-btn").style.display = "none";
+          } else {
+            console.error("Upload failed:", data);
+            alert("Upload failed. Please try again.");
+          }
+        })
+        .catch(err => {
+          console.error("Error:", err);
+          alert("An error occurred during upload. Please try again.");
+        });
+    }
+
     function goToStep3() {
       const popup = document.getElementById("verificationPopup");
 
@@ -617,11 +917,12 @@
       if (popup) {
         popup.innerHTML = `
         <div class="popUpHeader">
-            <h2>Step 3: Aadhar Upload</h2>
+            <h2>Step 3: Identity Verification Process</h2>
             <span class="material-symbols-outlined" style="
                 cursor: pointer;" onclick="closePopup()">close</span>
         </div>
         <div class="getDocument">
+          <h5 style="font-family: 'Zoho Puvi Light';">Selected Service: Aadhar Upload</h5>
           <div class="choiceButtonsDiv">
             <button class="choiceButtons" id="takeAadharPhoto" onclick="takePhoto()">
               <span class="material-symbols-outlined">photo_camera_front</span>
@@ -634,7 +935,7 @@
               Single file upload</button>
           </div>
           
-          <div id="cameraTake" class="cameraTake" style="display: none;height: 400px;">
+          <div id="cameraTake" class="cameraTake" style="height: 400px;">
             <video id="aadharVideo" autoplay playsinline style="display: flex;width: 400px;height: 300px;border-radius: 10px;background-color: white;">Click Capture to start camera</video>
             <button class="captureAadharPhoto" onclick="captureAadharPhoto()">Capture</button>
             <div class="canvasPreview">
@@ -673,7 +974,7 @@
 
           <div class="closeButton">
             <button class="cancelProcess" onclick="closePopup()">Cancel</button>
-            <button class="abortProcess" id="abortProcess" onclick="goToStep3()" style="display: none;border: none;font-family: 'Zoho Puvi Light';border-radius: 5px;">Abort</button>
+            <button class="abortProcess" id="abortProcess" onclick="goToStep2_5()" style="border: none;font-family: 'Zoho Puvi Light';border-radius: 5px;">Abort</button>
             <button id="uploadAndNext" onclick="handleUploadAndNext()">Upload & Next</button>
           </div>
         </div>
@@ -943,6 +1244,10 @@
         return;
       }
 
+      const firstName = document.getElementById("fnameValue").innerText.trim();
+      const lastName = document.getElementById("lnameValue").innerText.trim();
+      const mailIdUser = document.getElementById("mailidValue").innerText.trim();
+
       if (!aadharFrontImage || !aadharBackImage) {
         alert("Aadhar images are not uploaded. Pls check and try again");
         return;
@@ -957,6 +1262,10 @@
       formData.append("faceImage", blob, "face.png");
       formData.append("aadharFrontImage", aadharFrontImg, "aadharFront.png");
       formData.append("aadharBackImage", aadharBackImg, "aadharBack.png");
+
+      formData.append("username", firstName);
+      formData.append("lastname", lastName);
+      formData.append("mailIdUser", mailIdUser);
 
       fetch("https://my-finance-test-60042869018.development.catalystserverless.in/server/storeApplicationStratus/", {
         method: "POST",
@@ -1015,7 +1324,79 @@
     }
 
     function declineLoanAmt() {
+      document.getElementById("overlay").style.display = "block";
+      
+      const declinePopup = document.createElement("div");
+      declinePopup.className = "declinePopUp";
+      declinePopup.id = "declinePopUpInput";
 
+      declinePopup.innerHTML = `
+        <div>
+          <div style="display: flex;">
+            <h3 style="
+                font-size: 16px;
+                font-family: 'Zoho Puvi Semibold';
+                padding-bottom: 15px;
+            ">Are you sure want to Decline the sanctioned loan?</h3>
+            <span class="material-symbols-outlined" style="
+                  cursor: pointer;" onclick="declineClosePopup()">close</span>
+          </div>
+          <div style="padding-bottom: 20px;">
+            <p>Enter the reason for decline:</p>
+            <input id="declineReason" style="width: 100%;border-radius: 5px;font-family: 'Zoho Puvi Light';padding: 10px;"></input>
+            <p id="errorMessage" style="
+                color: red;
+                font-size: 13px;
+                padding-top: 5px;
+            "></p>
+          </div>
+          <div style="
+              display: flex;
+              gap: 6px;
+              flex-direction: row-reverse;
+          ">
+            <button class="declinePopupButtons declineBtn" onclick="sendMailtoAdmin()">Decline</button>
+            <button class="declinePopupButtons goBackBtn" onclick="declineClosePopup()">Go Back</button>
+          </div>
+        </div>`
+        document.getElementById("overlay").appendChild(declinePopup);
+    }
+
+    function sendMailtoAdmin() {
+      const getInputValue = document.getElementById("declineReason").value;
+
+      if (getInputValue === "") {
+        const errorMsg = document.getElementById("errorMessage");
+        errorMsg.innerText="*Please fill the valid reason to Decline the Sanctioned Loan";
+      } else {
+        const errorMsg = document.getElementById("errorMessage");
+        errorMsg.innerText = "";
+
+        const valueToSend = getInputValue;
+        const userEmail = user.email_id; // assuming you already have this
+
+        fetch('https://my-finance-test-60042869018.development.catalystserverless.in/server/declineEmailToAdmin/', {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            reason: valueToSend,
+            userEmail: userEmail
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log("Mail sent response:", data);
+          })
+          .catch(err => console.error("Error:", err));
+
+        document.getElementById("declineReason").value = "";
+      }
+    }
+
+    function declineClosePopup() {
+      document.getElementById("overlay").style.display = "none";
+      const popup = document.getElementById("declinePopUp");
+      if (popup) popup.remove();
     }
 
   </script>

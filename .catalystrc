@@ -22,7 +22,15 @@
           "idx": 1,
           "id": "60042869018",
           "name": "Development",
-          "type": 3
+          "type": 3,
+          "env_status": "Active",
+          "project_details": {
+            "project_name": "my-finance-test",
+            "id": "17880000000013083",
+            "project_type": "Live"
+          },
+          "is_default": true,
+          "action_required": false
         }
       ]
     }
